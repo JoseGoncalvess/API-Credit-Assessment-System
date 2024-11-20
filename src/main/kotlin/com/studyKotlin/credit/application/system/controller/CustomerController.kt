@@ -5,6 +5,8 @@ import com.studyKotlin.credit.application.system.dto.CustomerDTO
 import com.studyKotlin.credit.application.system.dto.CustomerUpdateDto
 import com.studyKotlin.credit.application.system.dto.CustomerView
 import com.studyKotlin.credit.application.system.service.impl.CustomerService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -16,34 +18,37 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/ipi/customers")
+@RequestMapping("/api/customers")
 class CustomerController(private val customerService: CustomerService) {
 
     @PostMapping
-    fun  saveCustomer(@RequestBody customer: CustomerDTO): String{
+    fun saveCustomer(@RequestBody customer: CustomerDTO): ResponseEntity<String> {
         customerService.save(customer.toEntity())
-        return  "Customer ${customer.email} saved"
+        return ResponseEntity.status(HttpStatus.CREATED).body("Customer ${customer.email} saved")
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id : Long) : CustomerView{
-        val customer : Customer = this.customerService.findById(id)
-        return  CustomerView(customer = customer)
+    fun findById(@PathVariable id: Long): ResponseEntity<CustomerView> {
+        val customer: Customer = this.customerService.findById(id)
+        return ResponseEntity.status(HttpStatus.OK).body(CustomerView(customer = customer))
     }
 
     @DeleteMapping("/{id}")
-    fun deleteCustomerById(@PathVariable id : Long) : String{
-      this.customerService.delete(id)
-        return  "Customer with id ->  $id Deleted "
+    fun deleteCustomerById(@PathVariable id: Long): ResponseEntity<String> {
+        this.customerService.delete(id)
+        return ResponseEntity.status(HttpStatus.CREATED).body("Customer with id ->  $id Deleted ")
     }
 
     @PatchMapping
-    fun updateCostumer(@RequestParam(value = "customerid") id : Long, @RequestBody customerUpdateDto : CustomerUpdateDto) : CustomerView{
-       var customer:Customer = this.customerService.findById(id)
-        var customerUpdate : Customer = customerUpdateDto.toEntity(customer)
-         this.customerService.save(customerUpdate)
+    fun updateCostumer(
+        @RequestParam(value = "customerid") id: Long,
+        @RequestBody customerUpdateDto: CustomerUpdateDto
+    ): ResponseEntity<CustomerView> {
+        var customer: Customer = this.customerService.findById(id)
+        var customerUpdate: Customer = customerUpdateDto.toEntity(customer)
+        this.customerService.save(customerUpdate)
 
-        return CustomerView(customerUpdate)
+        return ResponseEntity.status(HttpStatus.CREATED).body(CustomerView(customerUpdate))
 
     }
 

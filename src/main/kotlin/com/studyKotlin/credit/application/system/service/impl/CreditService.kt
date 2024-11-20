@@ -24,4 +24,8 @@ class CreditService(private val creditRepository: CreditRepository,
        val credit: Credit? = creditRepository.findByCreditCode(creditCode) ?: throw RuntimeException("CreditCode $creditCode not found")
        return if (credit?.customer!!.id!!.equals(idCustomer)) credit else throw RuntimeException("Contact admin")
     }
+
+    override fun delete(id: Long) {
+       creditRepository.deleteById(id)
+    }
 }

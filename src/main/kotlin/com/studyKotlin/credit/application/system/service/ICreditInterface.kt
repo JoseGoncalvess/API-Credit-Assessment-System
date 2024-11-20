@@ -7,4 +7,6 @@ interface ICreditInterface {
     fun  save(credit: Credit) : Credit
     fun  findByCustomer(customerId: Long) : List<Credit>
     fun findByCreditCode(creditCode: UUID,idCustomer: Long) : Credit
+
+    fun delete(id: Long)
 }
