@@ -1,8 +1,6 @@
 package com.studyKotlin.credit.application.system.service
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Credit
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
-import java.util.UUID
+import com.studyKotlin.credit.application.system.domain.model.Customer
 
 interface ICustomerInterface {
     fun  save(customer: Customer) : Customer

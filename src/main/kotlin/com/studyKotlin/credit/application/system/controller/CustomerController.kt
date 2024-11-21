@@ -1,11 +1,12 @@
 package com.studyKotlin.credit.application.system.controller
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
+import com.studyKotlin.credit.application.system.domain.model.Customer
 import com.studyKotlin.credit.application.system.dto.CustomerDTO
 import com.studyKotlin.credit.application.system.dto.CustomerUpdateDto
 import com.studyKotlin.credit.application.system.dto.CustomerView
 import com.studyKotlin.credit.application.system.service.impl.CustomerService
 import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/customers")
-class CustomerController(private val customerService: CustomerService) {
+class CustomerController @Autowired constructor( private val customerService: CustomerService) {
 
     @PostMapping
     fun saveCustomer(@RequestBody @Valid customer: CustomerDTO): ResponseEntity<String> {
@@ -35,6 +37,7 @@ class CustomerController(private val customerService: CustomerService) {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCustomerById(@PathVariable id: Long): ResponseEntity<String> {
         this.customerService.delete(id)
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer with id ->  $id Deleted ")

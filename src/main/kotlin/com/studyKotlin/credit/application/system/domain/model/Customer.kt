@@ -1,4 +1,4 @@
-package com.studyKotlin.API_Rest_Kotlin.domain.model
+package com.studyKotlin.credit.application.system.domain.model
 
 import jakarta.persistence.*
 import java.math.BigDecimal
@@ -21,7 +21,7 @@ data class Customer(
         @Column(nullable = false)
         var inCome: BigDecimal = BigDecimal.ZERO,
         @Column(nullable = false)
-        @OneToMany(fetch = FetchType.LAZY, cascade = arrayOf(CascadeType.REMOVE, CascadeType.PERSIST), mappedBy = "custumer")
+        @OneToMany(fetch = FetchType.LAZY, cascade = arrayOf(CascadeType.REMOVE, CascadeType.PERSIST), mappedBy = "customer")
         val credits: List<Credit> = mutableListOf(),
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

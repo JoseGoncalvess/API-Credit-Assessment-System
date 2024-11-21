@@ -1,6 +1,6 @@
 package com.studyKotlin.credit.application.system.dto
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
+import com.studyKotlin.credit.application.system.domain.model.Customer
 import java.math.BigDecimal
 
 data class CustomerView(

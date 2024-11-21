@@ -1,11 +1,10 @@
 package com.studyKotlin.credit.application.system.controller
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Credit
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
+import com.studyKotlin.credit.application.system.domain.model.Credit
 import com.studyKotlin.credit.application.system.dto.*
 import com.studyKotlin.credit.application.system.service.impl.CreditService
-import com.studyKotlin.credit.application.system.service.impl.CustomerService
 import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,14 +14,13 @@ import java.util.stream.Collectors
 
 @RestController
 @RequestMapping("/api/credits")
-class CreditController(
-    private val creditService: CreditService,
-    private val customerService: CustomerService
+class CreditController @Autowired constructor(
+     private val creditService: CreditService,
 ) {
     @PostMapping
     fun saveCredit(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<String> {
         val credit: Credit = creditService.save(creditDTO.toEntity())
-        return ResponseEntity.status(HttpStatus.CREATED).body("Credit ${credit.customer?.email} saved Sucessive")
+        return ResponseEntity.status(HttpStatus.CREATED).body("Credit ${credit.creditCode} ${credit.customer?.email} saved Sucessive")
     }
 
     @GetMapping("/{id}")

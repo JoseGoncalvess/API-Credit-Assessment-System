@@ -1,8 +1,7 @@
 package com.studyKotlin.credit.application.system.dto
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Credit
+import com.studyKotlin.credit.application.system.domain.model.Credit
 import java.math.BigDecimal
-import java.time.LocalDate
 import java.util.UUID
 
 data class CreditViewList(

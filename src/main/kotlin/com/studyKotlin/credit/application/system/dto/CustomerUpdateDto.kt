@@ -1,6 +1,6 @@
 package com.studyKotlin.credit.application.system.dto
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
+import com.studyKotlin.credit.application.system.domain.model.Customer
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import java.math.BigDecimal
@@ -17,7 +17,7 @@ class CustomerUpdateDto(
     @field:NotEmpty(message = "The street are't Empty or  Null")
     var street: String,
 ) {
-fun  toEntity(customer: Customer) : Customer{
+fun  toEntity(customer: Customer) : Customer {
     customer.firstName = this.firstName;
     customer.lastName = this.lastName;
     customer.inCome = this.inCome;

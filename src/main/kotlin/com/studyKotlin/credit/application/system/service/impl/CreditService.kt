@@ -1,18 +1,32 @@
 package com.studyKotlin.credit.application.system.service.impl
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Credit
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
+import com.studyKotlin.credit.application.system.domain.model.Credit
 import com.studyKotlin.credit.application.system.domain.repository.CreditRepository
+import com.studyKotlin.credit.application.system.excepion.BusinessException
 import com.studyKotlin.credit.application.system.service.ICreditInterface
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
 import java.util.*
 
-class CreditService(private val creditRepository: CreditRepository,
-                    private  val customerService: CustomerService) : ICreditInterface {
+@Service
+class CreditService @Autowired  constructor (private val creditRepository: CreditRepository,
+                                             private  val customerService: CustomerService
+) : ICreditInterface {
     override fun save(credit: Credit): Credit {
-        credit.apply {
-            customer = customerService.findById(credit.customer?.id!!)
+        val today : LocalDate = LocalDate.now()
+        if (credit.dayFirstInstallment <= today.plusDays(90) && credit.dayFirstInstallment > today){
+            credit.apply {
+                customer = customerService.findById(credit.customer?.id!!)
+            }
+            return creditRepository.save(credit)
+        }else{
+            throw BusinessException("The first installment must be paid within 90 days of applying for the loan.")
         }
-       return creditRepository.save(credit)
+
     }
 
     override fun findByCustomer(customerId: Long): List<Credit> {
@@ -22,7 +36,7 @@ class CreditService(private val creditRepository: CreditRepository,
 
     override fun findByCreditCode(creditCode: UUID, idCustomer: Long): Credit {
        val credit: Credit? = creditRepository.findByCreditCode(creditCode) ?: throw RuntimeException("CreditCode $creditCode not found")
-       return if (credit?.customer!!.id!!.equals(idCustomer)) credit else throw RuntimeException("Contact admin")
+       return if (credit?.customer!!.id!!.equals(idCustomer)) credit else throw BusinessException("Contact admin")
     }
 
     override fun delete(id: Long) {

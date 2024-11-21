@@ -1,4 +1,4 @@
-package com.studyKotlin.API_Rest_Kotlin.domain.model
+package com.studyKotlin.credit.application.system.domain.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable

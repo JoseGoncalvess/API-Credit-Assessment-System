@@ -1,6 +1,6 @@
 package com.studyKotlin.credit.application.system.service
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Credit
+import com.studyKotlin.credit.application.system.domain.model.Credit
 import java.util.*
 
 interface ICreditInterface {

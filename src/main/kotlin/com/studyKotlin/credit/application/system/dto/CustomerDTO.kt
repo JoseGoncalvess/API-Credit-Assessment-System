@@ -1,9 +1,7 @@
 package com.studyKotlin.credit.application.system.dto
 
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Address
-import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
-import jakarta.persistence.Column
-import jakarta.persistence.Embedded
+import com.studyKotlin.credit.application.system.domain.model.Address
+import com.studyKotlin.credit.application.system.domain.model.Customer
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
@@ -24,7 +22,6 @@ data class CustomerDTO (
     @field:NotEmpty(message = "The password are't Empty or  Null")
     @field:NotNull(message = "The password are't Null")
     var password: String,
-    @field:NotEmpty(message = "The inCome are't Empty or  Null")
     @field:NotNull(message = "The inCome are't Null")
     val inCome: BigDecimal,
     @field:NotEmpty(message = "The zipCode are't Empty or  Null")
@@ -34,7 +31,8 @@ data class CustomerDTO (
     var street: String,
 ){
 
-    fun  toEntity():Customer = Customer(this.firstName,
+    fun  toEntity(): Customer = Customer(this.firstName,
         this.lastName,this.cpf,this.email,
-        this.password, Address(this.zipCode,this.street))
+        this.password, Address(this.zipCode,this.street)
+    )
 }
