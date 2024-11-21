@@ -5,6 +5,7 @@ import com.studyKotlin.API_Rest_Kotlin.domain.model.Customer
 import com.studyKotlin.credit.application.system.dto.*
 import com.studyKotlin.credit.application.system.service.impl.CreditService
 import com.studyKotlin.credit.application.system.service.impl.CustomerService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,7 +20,7 @@ class CreditController(
     private val customerService: CustomerService
 ) {
     @PostMapping
-    fun saveCredit(@RequestBody creditDTO: CreditDTO): ResponseEntity<String> {
+    fun saveCredit(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<String> {
         val credit: Credit = creditService.save(creditDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED).body("Credit ${credit.customer?.email} saved Sucessive")
     }
