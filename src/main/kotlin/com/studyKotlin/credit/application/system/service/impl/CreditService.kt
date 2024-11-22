@@ -18,7 +18,7 @@ class CreditService @Autowired  constructor (private val creditRepository: Credi
 ) : ICreditInterface {
     override fun save(credit: Credit): Credit {
         val today : LocalDate = LocalDate.now()
-        if (credit.dayFirstInstallment <= today.plusDays(90) && credit.dayFirstInstallment > today){
+        if (credit.dayFirstInstallment <= today.plusDays(90) && credit.dayFirstInstallment >= today){
             credit.apply {
                 customer = customerService.findById(credit.customer?.id!!)
             }
