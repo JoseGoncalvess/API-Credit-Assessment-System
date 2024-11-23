@@ -8,7 +8,7 @@ import com.studyKotlin.credit.application.system.domain.repository.CreditReposit
 import com.studyKotlin.credit.application.system.excepion.BusinessException
 import com.studyKotlin.credit.application.system.service.impl.CreditService
 import com.studyKotlin.credit.application.system.service.impl.CustomerService
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -31,15 +31,23 @@ class CretitServicetest {
     @MockK
     lateinit var customerService: CustomerService
 
-    @InjectMockKs()
+    @InjectMockKs
     lateinit var creditService: CreditService
 
-// TODO CRIAR TESTES
+    // TODO CRIAR TESTES
     @Test
     fun `Saved Credit`() {
         val fakeCredit: Credit = buildCredit()
+        val fakeCustomer : Customer = buildCustomer()
         val fakeId: Long = Random().nextLong()
 
+        every { customerService.findById(fakeCredit.customer!!.id!!) } returns fakeCustomer
+        every { creditRepository.save(any()) } returns fakeCredit
+
+        val actuCrdit : Credit = creditService.save(fakeCredit)
+
+        Assertions.assertThat(actuCrdit).isNotNull
+        verify(exactly = 1) { customerService.findById(any()) }
     }
 
     @Test
@@ -67,13 +75,25 @@ class CretitServicetest {
     fun `Find CredCode and CustomerId`() {
         val fakeCredit: Credit = buildCredit()
         val fakeId: Long = Random().nextLong()
-        val fakeCredCode: UUID = UUID.randomUUID()
+        var fakeCredCode: UUID = UUID.randomUUID()
 
         every { creditRepository.findByCreditCode(fakeCredCode) } returns fakeCredit
 
         val actualCredit: Credit = creditService.findByCreditCode(fakeCredCode, 1)
         Assertions.assertThat(actualCredit).isNotNull()
-        Assertions.assertThat(actualCredit.customer!!.id).isSameAs(1)
+        Assertions.assertThat(actualCredit.customer!!.id).isSameAs(1L)
+
+    }
+
+    @Test
+    fun `Delete Credit by Id`() {
+        val fakeId: Long = Random().nextLong()
+
+        every { creditRepository.deleteById(fakeId) } just Runs;
+        creditService.delete(fakeId)
+
+        verify(exactly = 1) { creditRepository.deleteById(fakeId) }
+        verify(exactly = 1) { creditService.delete(fakeId) }
 
     }
 
