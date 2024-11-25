@@ -14,6 +14,7 @@ data class CustomerDTO (
     @field:NotEmpty(message = "The lastName are't Empty or  Null")
     val lastName: String,
     @field:NotEmpty(message = "The cpf are't Empty or  Null")
+    @field:NotNull(message = "The cpf are't Empty or  Null")
     @field:CPF(message =  "The cpf invalid, verify input")
     val cpf: String,
     @field:NotEmpty(message = "The email are't Empty or  Null")
