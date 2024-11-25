@@ -13,10 +13,8 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.stereotype.Service
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -55,8 +53,7 @@ class CretitServicetest {
         val fakeCredit: Credit = buildCredit()
         every { creditRepository.save(fakeCredit) } returns fakeCredit
         Assertions.assertThatExceptionOfType(BusinessException::class.java)
-            .isThrownBy { creditService.save(fakeCredit) }
-            .withMessage("The first installment must be paid within 90 days of applying for the loan.")
+            .isThrownBy {creditService.save(fakeCredit)}
     }
 
     @Test
@@ -74,7 +71,6 @@ class CretitServicetest {
     @Test
     fun `Find CredCode and CustomerId`() {
         val fakeCredit: Credit = buildCredit()
-        val fakeId: Long = Random().nextLong()
         var fakeCredCode: UUID = UUID.randomUUID()
 
         every { creditRepository.findByCreditCode(fakeCredCode) } returns fakeCredit

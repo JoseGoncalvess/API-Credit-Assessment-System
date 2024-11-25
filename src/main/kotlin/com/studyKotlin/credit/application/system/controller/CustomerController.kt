@@ -40,7 +40,7 @@ class CustomerController @Autowired constructor( private val customerService: Cu
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCustomerById(@PathVariable id: Long): ResponseEntity<String> {
         this.customerService.delete(id)
-        return ResponseEntity.status(HttpStatus.CREATED).body("Customer with id ->  $id Deleted ")
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Customer with id ->  $id Deleted ")
     }
 
     @PatchMapping
@@ -52,7 +52,7 @@ class CustomerController @Autowired constructor( private val customerService: Cu
         var customerUpdate: Customer = customerUpdateDto.toEntity(customer)
         this.customerService.save(customerUpdate)
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(CustomerView(customerUpdate))
+        return ResponseEntity.status(HttpStatus.OK).body(CustomerView(customerUpdate))
 
     }
 
