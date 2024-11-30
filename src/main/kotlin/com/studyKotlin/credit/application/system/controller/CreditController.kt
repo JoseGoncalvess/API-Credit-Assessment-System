@@ -46,7 +46,7 @@ class CreditController @Autowired constructor(
     @DeleteMapping("/{id}")
     fun deleteCredit(@PathVariable id: Long): ResponseEntity<String> {
         creditService.delete(id)
-        return ResponseEntity.status(HttpStatus.CREATED).body("Customer with id ->  $id Deleted ")
+        return ResponseEntity.status(HttpStatus.OK).body("Customer with id ->  $id Deleted")
     }
 //
 //    @PatchMapping
